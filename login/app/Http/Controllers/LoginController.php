@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,11 +23,12 @@ class LoginController extends Controller
         $password = $request->input('password');
 
         $user = User::where('name', $name)->first();
+        $simulatedSQL = "SELECT * FROM users WHERE name = '$name'"; // Define the variable
 
-        if (!empty($user) $user && Hash::check($password, $user->password)) {
+        if (!empty($user) && Hash::check($password, $user->password)) {
             return response()->make("
                 <h1>✅ Login bem-sucedido!</h1>
-                <p><strong>Usuário autenticado:</strong> {$user[0]->name}</p>
+                <p><strong>Usuário autenticado:</strong> {$user->name}</p>
                 <hr>
                 <h3>🔎 Dados recebidos:</h3>
                 <p>Nome: $name</p>
